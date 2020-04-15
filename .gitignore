@@ -207,3 +207,5 @@ fabric.properties
 .idea/
 venv/
 
+face_recognition/output/
+face_recognition/videos/
