@@ -1,9 +1,15 @@
 import cv2
+from os.path import dirname, abspath
+
+exampleImagesDir = str(dirname(dirname(abspath(__file__))))+"/example_images/"
+imageName = "greta.jpg"
+
+
 
 face_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
 eye_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_eye.xml')
 
-img = cv2.imread('trump.jpg')
+img = cv2.imread(exampleImagesDir+imageName)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 faces = face_cascade.detectMultiScale(gray, 1.3, 5)
