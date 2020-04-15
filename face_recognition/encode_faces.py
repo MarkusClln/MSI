@@ -1,61 +1,54 @@
-# USAGE
-# python encode_faces.py --dataset dataset --encodings encodings.pickle
-
-# import the necessary packages
 from imutils import paths
 import face_recognition
-import argparse
 import pickle
 import cv2
 import os
 
-# construct the argument parser and parse the arguments
-#ap = argparse.ArgumentParser()
-#ap.add_argument("-i", "--dataset", required=True,
-#	help="path to input directory of faces + images")
-#ap.add_argument("-e", "--encodings", required=True,
-#	help="path to serialized db of facial encodings")
-#ap.add_argument("-d", "--detection-method", type=str, default="cnn",
-#	help="face detection model to use: either `hog` or `cnn`")
-#args = vars(ap.parse_args())
+# This script is used for creating encodings of the given dataset
+# Build the dataset as follows:
+# dataset-name Folder
+# > Name-of-person Folder
+# >> Images of the person, which should be used for learning
+dataset = "dataset-office"
 
-# grab the paths to the input images in our dataset
-print("[INFO] quantifying faces...")
-imagePaths = list(paths.list_images("dataset-office"))
+# use hog for cpu usage
+# use cnn for gpu usage (only worth if dlib was installed with gpu usage)
+detectionMethod = "hog"
 
-# initialize the list of known encodings and known names
+# get all images from the dataset
+print("[INFO] Messe Gesichter...")
+imagePaths = list(paths.list_images(dataset))
+
+# initialize lists for encodings and names
 knownEncodings = []
 knownNames = []
 
-# loop over the image paths
+# iterate over all images
 for (i, imagePath) in enumerate(imagePaths):
-	# extract the person name from the image path
-	print("[INFO] processing image {}/{}".format(i + 1,
+	# get the persons name by extracting the foldername
+	print("[INFO] Verarbeite Bild {}/{}".format(i + 1,
 		len(imagePaths)))
 	name = imagePath.split(os.path.sep)[-2]
 
-	# load the input image and convert it from RGB (OpenCV ordering)
+	# load the input image and convert it from BGR (OpenCV ordering)
 	# to dlib ordering (RGB)
 	image = cv2.imread(imagePath)
 	rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-	# detect the (x, y)-coordinates of the bounding boxes
-	# corresponding to each face in the input image
-	boxes = face_recognition.face_locations(rgb,
-		model="hog")
+	# detect faces
+	boxes = face_recognition.face_locations(rgb, model=detectionMethod)
 
 	# compute the facial embedding for the face
 	encodings = face_recognition.face_encodings(rgb, boxes)
 
 	# loop over the encodings
 	for encoding in encodings:
-		# add each encoding + name to our set of known names and
-		# encodings
+		# add each encoding + name to our set of known names and encodings
 		knownEncodings.append(encoding)
 		knownNames.append(name)
 
-# dump the facial encodings + names to disk
-print("[INFO] serializing encodings...")
+# save encodings in pickle file
+print("[INFO] Serialisiere Kodierungen...")
 data = {"encodings": knownEncodings, "names": knownNames}
 f = open("/encodings.pickle", "wb")
 f.write(pickle.dumps(data))
