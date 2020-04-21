@@ -1,8 +1,8 @@
 import cv2
 from os.path import dirname, abspath
 
-exampleImagesDir = str(dirname(dirname(abspath(__file__))))+"/example_images/"
-imageName = "greta.jpg"
+exampleImagesDir = str(dirname(dirname(dirname(abspath(__file__)))))+"/example_images/"
+imageName = "carper.jpg"
 
 #Pretrained classes in the model
 ObjectsNames = {0: 'background',
@@ -25,8 +25,8 @@ ObjectsNames = {0: 'background',
 
 
 #Loading model
-model = cv2.dnn.readNetFromTensorflow('models/frozen_inference_graph.pb',
-                                      'models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
+model = cv2.dnn.readNetFromTensorflow('MobileNet/models/frozen_inference_graph.pb',
+                                      'MobileNet/models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
 #Loading image
 image = cv2.imread(exampleImagesDir+imageName)
@@ -64,14 +64,18 @@ for detection in output[0, 0, :, :]:
         box_width = detection[5] * image_width
         box_height = detection[6] * image_height
         cv2.rectangle(image, (int(box_x), int(box_y)), (int(box_width),
-                            int(box_height)), (23, 230, 210), thickness=1) #drawing rectangle
-        cv2.putText(image,class_name ,(int(box_x), int(box_y+.05*image_height)),
-        cv2.FONT_HERSHEY_SIMPLEX,(.005*image_width),(0, 0, 255)) #text
+                            int(box_height)), (0, 255, 0), thickness=3) #drawing rectangle
+        cv2.putText(image,class_name ,(int(box_x), int(box_y+.05*image_height)),cv2.FONT_HERSHEY_SIMPLEX,(4.8),(0, 0,255), 2) #text
 
 
+scale_percent = 40 # percent of original size
+width = int(image.shape[1] * scale_percent / 100)
+height = int(image.shape[0] * scale_percent / 100)
+dim = (width, height)
+# resize image
+resized = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
 
-
-cv2.imshow('image', image)
+cv2.imshow('image', resized)
 # cv2.imwrite("image_box_text.jpg",image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

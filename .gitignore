@@ -209,3 +209,7 @@ venv/
 
 face_recognition/output/
 face_recognition/videos/
+
+detect_objects/YOLO/output
+detect_objects/YOLO/videos
+detect_objects/YOLO/yolo-coco
