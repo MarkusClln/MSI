@@ -2,7 +2,7 @@ import cv2
 from os.path import dirname, abspath
 
 exampleImagesDir = str(dirname(dirname(dirname(abspath(__file__)))))+"/example_images/"
-imageName = "carper.jpg"
+imageName = "car.jpg"
 
 #Pretrained classes in the model
 ObjectsNames = {0: 'background',
@@ -25,8 +25,8 @@ ObjectsNames = {0: 'background',
 
 
 #Loading model
-model = cv2.dnn.readNetFromTensorflow('MobileNet/models/frozen_inference_graph.pb',
-                                      'MobileNet/models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
+model = cv2.dnn.readNetFromTensorflow('models/frozen_inference_graph.pb',
+                                      'models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
 #Loading image
 image = cv2.imread(exampleImagesDir+imageName)
