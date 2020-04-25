@@ -18,7 +18,7 @@ data = pickle.loads(open(encodingsFile, "rb").read())
 image = cv2.imread(inputImg)
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-# detect faces
+# face_detection
 boxes = face_recognition.face_locations(rgb, model=detectionMethod)
 
 # calculate encodings

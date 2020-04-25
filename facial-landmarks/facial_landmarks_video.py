@@ -21,7 +21,7 @@ def get_landmarks(image):
     image = imutils.resize(image, width=500)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # detect faces in the grayscale image
+    # face_detection in the grayscale image
     rects = detector(gray, 1)
 
     # loop over the face detections
