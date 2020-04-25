@@ -11,7 +11,7 @@ import cv2
 from os.path import dirname, abspath
 
 exampleImagesDir = str(dirname(dirname(abspath(__file__))))+"/example_images/"
-imageName = "trump.jpg"
+imageName = "chrisp1.jpeg"
 
 
 # the facial landmark predictor
@@ -37,16 +37,16 @@ for (i, rect) in enumerate(rects):
 	# convert dlib's rectangle to a OpenCV-style bounding box
 	# [i.e., (x, y, w, h)], then draw the face bounding box
 	(x, y, w, h) = face_utils.rect_to_bb(rect)
-	cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+	#cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 	# show the face number
-	cv2.putText(image, "Face #{}".format(i + 1), (x - 10, y - 10),
-		cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+	#cv2.putText(image, "Face #{}".format(i + 1), (x - 10, y - 10),
+	#	cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 	# loop over the (x, y)-coordinates for the facial landmarks
 	# and draw them on the image
 	for (x, y) in shape:
-		cv2.circle(image, (x, y), 1, (0, 0, 255), -1)
+		cv2.circle(image, (x, y), 1, (0, 0, 255), 4)
 
 # show the output image with the face detections + facial landmarks
 cv2.imshow("Output", image)
