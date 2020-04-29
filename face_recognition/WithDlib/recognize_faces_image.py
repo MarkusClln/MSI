@@ -1,9 +1,11 @@
+from os.path import abspath, dirname
+
 import face_recognition
 import pickle
 import cv2
 
 encodingsFile = "/encodings.pickle"
-inputImg = "examples/theoffice.jpg"
+inputImg = str(dirname(dirname(abspath(__file__))))+"/examples/theoffice.jpg"
 unknownFaceTitle = "???"
 
 # use hog for cpu usage

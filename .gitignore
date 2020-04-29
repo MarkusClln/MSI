@@ -207,8 +207,8 @@ fabric.properties
 .idea/
 venv/
 
-face_recognition/output/
-face_recognition/videos/
+face_recognition/WithDlib/output/
+face_recognition/WithDlib/videos/
 
 detect_objects/YOLO/output
 detect_objects/YOLO/videos

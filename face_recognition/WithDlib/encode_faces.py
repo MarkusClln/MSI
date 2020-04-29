@@ -1,3 +1,5 @@
+from os.path import dirname, abspath
+
 from imutils import paths
 import face_recognition
 import pickle
@@ -9,8 +11,7 @@ import os
 # dataset-name Folder
 # > Name-of-person Folder
 # >> Images of the person, which should be used for learning
-dataset = "dataset-office"
-
+dataset = str(dirname(dirname(abspath(__file__))))+"/dataset-office/"
 # use hog for cpu usage
 # use cnn for gpu usage (only worth if dlib was installed with gpu usage)
 detectionMethod = "hog"
