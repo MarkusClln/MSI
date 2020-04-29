@@ -8,7 +8,7 @@ import shutil
 
 subscription_key = "" #<--- ur bing api key here
 search_url = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
-search_term = "Brad Pitt Face"
+search_term = "Keanu Reeves"
 search_times = 15
 
 headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
