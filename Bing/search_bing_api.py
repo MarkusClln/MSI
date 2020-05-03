@@ -1,14 +1,11 @@
 import requests
-import matplotlib.pyplot as plt
-
-from io import BytesIO
 import os
-import pathlib
 import shutil
+
 
 subscription_key = "" #<--- ur bing api key here
 search_url = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
-search_term = "Keanu Reeves"
+search_term = "Tom Cruise"
 search_times = 15
 
 headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
@@ -35,8 +32,7 @@ for url in thumbnail_urls:
                 count +=1
                 r.raw.decode_content = True
                 shutil.copyfileobj(r.raw, f)
-    # catch any errors that would not unable us to download the
-    # image
+    # catch any errors that would not unable us to download the image
     except Exception as e:
         print(e)
         continue
