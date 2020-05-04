@@ -4,8 +4,24 @@ import face_recognition
 import pickle
 import cv2
 
-encodingsFile = "/encodings.pickle"
-inputImg = str(dirname(dirname(abspath(__file__))))+"/examples/theoffice.jpg"
+faceRecBasePath = str(dirname(dirname(dirname(abspath(__file__)))))+"/example_images/face_recognition/"
+
+demoNumber = 2
+imageNumber = 1
+
+if(demoNumber ==1):
+    encodingsFile = "encodings_office.pickle"
+    inputImg = faceRecBasePath + "theoffice.jpg"
+else:
+    if (imageNumber == 1):
+        inputImg = faceRecBasePath + "jurassic_park_01.png"
+    elif (imageNumber == 2):
+        inputImg = faceRecBasePath + "jurassic_park_02.png"
+    else:
+        inputImg = faceRecBasePath + "jurassic_park_03.png"
+
+    encodingsFile = "encodings_jurassicpark.pickle"
+
 unknownFaceTitle = "???"
 
 # use hog for cpu usage

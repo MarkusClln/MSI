@@ -11,7 +11,7 @@ import os
 # dataset-name Folder
 # > Name-of-person Folder
 # >> Images of the person, which should be used for learning
-dataset = str(dirname(dirname(abspath(__file__))))+"/dataset-office/"
+dataset = str(dirname(dirname(abspath(__file__))))+"/dataset-jurassicpark/"
 # use hog for cpu usage
 # use cnn for gpu usage (only worth if dlib was installed with gpu usage)
 detectionMethod = "hog"
@@ -29,7 +29,7 @@ for (i, imagePath) in enumerate(imagePaths):
 	# get the persons name by extracting the foldername
 	print("[INFO] Verarbeite Bild {}/{}".format(i + 1,
 		len(imagePaths)))
-	name = imagePath.split(os.path.sep)[-2]
+	name = os.path.basename(imagePath.split(os.path.sep)[-2])
 
 	# load the input image and convert it from BGR (OpenCV ordering)
 	# to dlib ordering (RGB)
@@ -51,6 +51,6 @@ for (i, imagePath) in enumerate(imagePaths):
 # save encodings in pickle file
 print("[INFO] Serialisiere Kodierungen...")
 data = {"encodings": knownEncodings, "names": knownNames}
-f = open("encodings.pickle", "wb")
+f = open("encodings_jurassicpark.pickle", "wb")
 f.write(pickle.dumps(data))
 f.close()

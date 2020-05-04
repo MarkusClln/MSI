@@ -1,41 +1,32 @@
-# USAGE
-# python recognize.py --detector face_detection_model \
-#	--embedding-model openface_nn4.small2.v1.t7 \
-#	--recognizer output/recognizer.pickle \
-#	--le output/le.pickle --image images/adrian.jpg
-
-# import the necessary packages
 import numpy as np
-import argparse
 import imutils
 import pickle
 import cv2
-import os
+
 from os.path import dirname, abspath
 
-# construct the argument parser and parse the arguments
-# ap = argparse.ArgumentParser()
-# ap.add_argument("-i", "--image", required=True,
-# 	help="path to input image")
-# ap.add_argument("-d", "--detector", required=True,
-# 	help="path to OpenCV's deep learning face detector")
-# ap.add_argument("-m", "--embedding-model", required=True,
-# 	help="path to OpenCV's deep learning face embedding model")
-# ap.add_argument("-r", "--recognizer", required=True,
-# 	help="path to model trained to recognize faces")
-# ap.add_argument("-l", "--le", required=True,
-# 	help="path to label encoder")
-# ap.add_argument("-c", "--confidence", type=float, default=0.5,
-# 	help="minimum probability to filter weak detections")
-# args = vars(ap.parse_args())
-faceRecBasePath = str(dirname(dirname(abspath(__file__))))+"/examples"
+faceRecBasePath = str(dirname(dirname(dirname(abspath(__file__)))))+"/example_images/face_recognition/"
 
-inputImg = faceRecBasePath + "/theoffice.jpg"
+demoNumber = 1
+imageNumber = 3
+
+if(demoNumber == 1):
+	inputImg = faceRecBasePath + "theoffice.jpg"
+	recognizerOut = "output/recognizer_office.pickle"
+	labelEnc = "output/le_office.pickle"
+else:
+	if(imageNumber == 1):
+		inputImg = faceRecBasePath + "jurassic_park_01.png"
+	elif(imageNumber == 2):
+		inputImg = faceRecBasePath + "jurassic_park_02.png"
+	else:
+		inputImg = faceRecBasePath + "jurassic_park_03.png"
+	recognizerOut = "output/recognizer_jurassicpark.pickle"
+	labelEnc = "output/le_jurassicpark.pickle"
+
 detectorDeploy = "face_detection_model/deploy.prototxt"
 detectorModel = "face_detection_model/res10_300x300_ssd_iter_140000.caffemodel"
 embeddingModel ="openface_nn4.small2.v1.t7"
-recognizerOut="output/recognizer.pickle"
-labelEnc="output/le.pickle"
 confidenceDef = 0.5
 
 # load our serialized face detector from disk
@@ -57,9 +48,7 @@ image = imutils.resize(image, width=600)
 (h, w) = image.shape[:2]
 
 # construct a blob from the image
-imageBlob = cv2.dnn.blobFromImage(
-	cv2.resize(image, (300, 300)), 1.0, (300, 300),
-	(104.0, 177.0, 123.0), swapRB=False, crop=False)
+imageBlob = cv2.dnn.blobFromImage(cv2.resize(image, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0), swapRB=False, crop=False)
 
 # apply OpenCV's deep learning-based face detector to localize
 # faces in the input image
@@ -90,8 +79,7 @@ for i in range(0, detections.shape[2]):
 		# construct a blob for the face ROI, then pass the blob
 		# through our face embedding model to obtain the 128-d
 		# quantification of the face
-		faceBlob = cv2.dnn.blobFromImage(face, 1.0 / 255, (96, 96),
-			(0, 0, 0), swapRB=True, crop=False)
+		faceBlob = cv2.dnn.blobFromImage(face, 1.0 / 255, (96, 96), (0, 0, 0), swapRB=True, crop=False)
 		embedder.setInput(faceBlob)
 		vec = embedder.forward()
 
@@ -105,10 +93,8 @@ for i in range(0, detections.shape[2]):
 		# probability
 		text = "{}: {:.2f}%".format(name, proba * 100)
 		y = startY - 10 if startY - 10 > 10 else startY + 10
-		cv2.rectangle(image, (startX, startY), (endX, endY),
-			(0, 0, 255), 2)
-		cv2.putText(image, text, (startX, y),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+		cv2.rectangle(image, (startX, startY), (endX, endY), (0, 0, 255), 2)
+		cv2.putText(image, name, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 0, 0), 1)
 
 # show the output image
 cv2.imshow("Image", image)

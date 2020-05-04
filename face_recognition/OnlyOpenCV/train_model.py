@@ -18,9 +18,20 @@ import pickle
 # 	help="path to output label encoder")
 # args = vars(ap.parse_args())
 
-embeddings = "output/embeddings.pickle"
-recognizerOut = "output/recognizer.pickle"
-labelEnc = "output/le.pickle"
+demoNumber = 2
+
+if(demoNumber == 1):
+    embeddings = "output/embeddings_office.pickle"
+    recognizerOut = "output/recognizer_office.pickle"
+    labelEnc = "output/le_office.pickle"
+else:
+    embeddings = "output/embeddings_jurassicpark.pickle"
+    recognizerOut = "output/recognizer_jurassicpark.pickle"
+    labelEnc = "output/le_jurassicpark.pickle"
+
+#embeddings = "output/embeddings.pickle"
+#recognizerOut = "output/recognizer.pickle"
+#labelEnc = "output/le.pickle"
 
 
 # load the face embeddings

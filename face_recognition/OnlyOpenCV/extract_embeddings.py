@@ -14,7 +14,7 @@ from os.path import dirname, abspath
 
 faceRecBasePath = str(dirname(dirname(abspath(__file__))))
 dataset = faceRecBasePath + "/dataset-office"
-outputEmb = "output/embeddings.pickle"
+outputEmb = "output/embeddings_office.pickle"
 detectorDeploy = "face_detection_model/deploy.prototxt"
 detectorModel = "face_detection_model/res10_300x300_ssd_iter_140000.caffemodel"
 embeddingModel = "openface_nn4.small2.v1.t7"
